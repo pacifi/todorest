@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from core.api.serializers import TodoHyperSerializer
 from .serializers import UserSerializer, ToDoSerializer
 
 from ..models import ToDo
@@ -58,14 +59,20 @@ class ToDoView(APIView):
         DELETE (Elimina 1 o mas objetos)
     """
     serializer_class = ToDoSerializer
+    # serializer_class = TodoHyperSerializer
+    # el hyperlink recibe un kwargs
 
     def get(self, request,id=None, format=None):
         todos = ToDo.objects.all()
-        response = self.serializer_class(todos, many=True)
+        response = self.serializer_class(todos, many=True) # Model Serializer
+        # response = self.serializer_class(todos, many=True, context={'request':request}) # HyperLink Serializer
+        # el hyperlink recibe un kwargs
         return Response(response.data)
 
     def post(self, request, format=None):
-        todo = self.serializer_class(data=request.data)
+
+        todo = self.serializer_class(data=request.data) # modelSerializer
+        #  todo = self.serializer_class(data=request.data, context={'request':request})
 
         # request.DATA deprecated usage request.data ver: rest_framework 3.2
         if todo.is_valid():

@@ -11,7 +11,7 @@ class ToDo(models.Model):
 
     fecha_creado = models.DateTimeField(auto_now_add=True)
     fecha_finalizado = models.DateTimeField(blank=True, null=True)
-    propietario = models.ForeignKey(User, blank=True, null=True)
+    propietario = models.ForeignKey(User)
     todo = models.TextField()
     hecho = models.BooleanField(default=False)
 
