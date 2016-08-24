@@ -3,7 +3,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-
+from ..models import ToDo
 
 class UserSerializer(serializers.ModelSerializer):
     """
@@ -16,3 +16,17 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "username", "first_name", "last_name", "email")
+        write_only_fields = ("password",)
+
+
+class ToDoSerializer(serializers.ModelSerializer):
+    """
+    Todo Serializer.
+
+    Serializer para enviar json del modelo Todo.
+    """
+
+    class Meta:
+        model = ToDo
+        fields = ("id", "fecha_creado", "fecha_finalizado", "fecha_finalizado", "todo", "hecho")
+

@@ -10,8 +10,8 @@ class ToDo(models.Model):
     """Django Model."""
 
     fecha_creado = models.DateTimeField(auto_now_add=True)
-    fecha_finalizado = models.DateTimeField()
-    propietario = models.ForeignKey(User)
+    fecha_finalizado = models.DateTimeField(blank=True, null=True)
+    propietario = models.ForeignKey(User, blank=True, null=True)
     todo = models.TextField()
     hecho = models.BooleanField(default=False)
 

@@ -11,5 +11,4 @@ class ToDoAdmin(admin.ModelAdmin):
         obj.propietario = request.user
         obj.save()
 
-
 admin.site.register(ToDo, ToDoAdmin)
