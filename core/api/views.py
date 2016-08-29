@@ -2,7 +2,9 @@
 
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
-from rest_framework import status
+
+from rest_framework import status, viewsets, permissions, filters
+from rest_framework.filters import DjangoFilterBackend
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -57,6 +59,8 @@ class ToDoView(APIView):
         POST (Crea 1 o muchos objetos)
         PUT, PATCH (Modifica Objetos)
         DELETE (Elimina 1 o mas objetos)
+
+        ==>
     """
     serializer_class = ToDoSerializer
     # serializer_class = TodoHyperSerializer
@@ -80,4 +84,44 @@ class ToDoView(APIView):
             return Response(todo.data, status=status.HTTP_201_CREATED)
         else:
             return Response(todo.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    ModelViewSet.
+        GET (obtiene 1 o muchos objetos)
+        ==> list(lista los objetos)
+        ==> retrive(lista un objeto)
+        POST (Crea 1 o muchos objetos)
+        ==>create (crea un objeto mendiante un post)
+        PUT, PATCH (Modifica Objetos)
+        ==> update (actualiza un objeto)
+        ==> partial_update (path: actualiza un objeto pero solo con los campos que enviamos.
+        DELETE (Elimina 1 o mas objetos)
+        ==> destroy(borra un objeto
+    """
+
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    # lookup_field = "id"  # lookup_field para filtrar el id que esta entrando en nuevas versiones no es necesario
+
+
+class ToDoViewSet(viewsets.ModelViewSet):
+    """
+    Hechos.
+
+    Hechos Rest.
+    """
+    serializer_class = ToDoSerializer
+    queryset = ToDo.objects.all()
+    # lookup_field = "id"  # ya no se usa
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
+    filter_backends = (DjangoFilterBackend, filters.Se)
+
+
+
+    def list(self, request, *args, **kwargs):
+        print(request.user)
+        return super(ToDoViewSet, self).list(request, *args, **kwargs)
+
 

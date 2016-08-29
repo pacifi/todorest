@@ -36,7 +36,8 @@ class ToDoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ToDo
         fields = ("id", "fecha_creado", "fecha_finalizado", "fecha_finalizado", "todo", "hecho", "propietario")
-        # read_only_fields = ("propietario",) # esto se cambia por el readonly de el serializer
+        # read_only_fields = ("propietario",) # esto se cambia por el read_only de el UserSerializer
+
 
 
 class TodoHyperSerializer(serializers.HyperlinkedModelSerializer):
